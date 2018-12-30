@@ -10,7 +10,7 @@
 npm install react-native-slack-login --save
 ```
 
-* How to get Client ID and clientSecret of slack?
+* How to get Client ID and Client Secret of slack?
 
 You'll need credentials to use Sign in with Slack. To retrieve your Client ID and secret, [you'll need to create a Slack App if you haven't already.](https://api.slack.com/apps/new)
 
@@ -53,7 +53,7 @@ Property | Type | Description
 clientId | PropTypes.string | Slack App ClientId, issued when you created your app (required)
 clientSecret | PropTypes.string | clientSecret App ClientId, issued when you created your app (required)
 scopes | PropTypes.array | [Permissions to request](https://api.slack.com/docs/oauth-scopes)
-redirectUrl | PropTypes.string | URL to redirect back to
+redirectUrl | PropTypes.string | URL to redirect back to, get it in `OAuth & Permissions` tab
 onLoginSuccess | PropTypes.func | Function will be call back on success
 onLoginFailure | PropTypes.func | Function will be call back on error
 onClose | PropTypes.func | Function will be call back on close modal
