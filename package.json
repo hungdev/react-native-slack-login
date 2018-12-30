@@ -1,0 +1,28 @@
+{
+  "name": "react-native-slack-login",
+  "version": "1.0.0",
+  "description": "React Native slack Login, a simple slack login library for React Native",
+  "main": "SlackLogin.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungdev/react-native-slack-login.git"
+  },
+  "keywords": [
+    "slack",
+    "login",
+    "auth"
+  ],
+  "author": "hung vu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hungdev/react-native-slack-login/issues"
+  },
+  "homepage": "https://github.com/hungdev/react-native-slack-login#readme",
+  "dependencies": {}
+}
