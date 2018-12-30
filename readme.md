@@ -14,7 +14,7 @@ npm install react-native-slack-login --save
 
 You'll need credentials to use Sign in with Slack. To retrieve your Client ID and secret, [you'll need to create a Slack App if you haven't already.](https://api.slack.com/apps/new)
 
-![](https://github.com/hungdev/react-native-slack-login/blob/master/client.png?raw=true)
+![](https://github.com/hungdev/react-native-slack-login/blob/master/assets/client.png?raw=true)
 
 in `OAuth & Permissions section`, add Redirect URLs
 
