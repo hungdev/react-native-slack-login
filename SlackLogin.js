@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  WebView,
   Alert,
   Modal,
   Dimensions,
@@ -13,6 +12,7 @@ import {
   Image
 } from 'react-native'
 import qs from 'qs'
+import WebView from 'react-native-webview'
 
 const { width, height } = Dimensions.get('window')
 
