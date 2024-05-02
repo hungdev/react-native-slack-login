@@ -27,7 +27,7 @@ const patchPostMessageJsCode = `(${String(function () {
   window.postMessage = patchedPostMessage;
 })})();`;
 
-export default class Instagram extends Component {
+export default class SlackLogin extends Component {
   constructor(props) {
     super(props);
     this.state = { modalVisible: false };
@@ -185,8 +185,8 @@ const defaultProps = {
   },
 };
 
-Instagram.propTypes = propTypes;
-Instagram.defaultProps = defaultProps;
+SlackLogin.propTypes = propTypes;
+SlackLogin.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
   webView: {
