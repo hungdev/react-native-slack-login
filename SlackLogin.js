@@ -1,6 +1,6 @@
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -10,71 +10,71 @@ import {
   Text,
   TouchableOpacity,
   Image
-} from 'react-native'
-import qs from 'qs'
-import WebView from 'react-native-webview'
+} from 'react-native';
+import qs from 'qs';
+import WebView from 'react-native-webview';
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
 
 const patchPostMessageJsCode = `(${String(function () {
-  var originalPostMessage = window.postMessage
+  var originalPostMessage = window.postMessage;
   var patchedPostMessage = function (message, targetOrigin, transfer) {
-    originalPostMessage(message, targetOrigin, transfer)
-  }
+    originalPostMessage(message, targetOrigin, transfer);
+  };
   patchedPostMessage.toString = function () {
-    return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage')
-  }
-  window.postMessage = patchedPostMessage
-})})();`
+    return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');
+  };
+  window.postMessage = patchedPostMessage;
+})})();`;
 
 export default class Instagram extends Component {
   constructor(props) {
-    super(props)
-    this.state = { modalVisible: false }
+    super(props);
+    this.state = { modalVisible: false };
   }
 
   show() {
-    this.setState({ modalVisible: true })
+    this.setState({ modalVisible: true });
   }
 
   hide() {
-    this.setState({ modalVisible: false })
+    this.setState({ modalVisible: false });
   }
 
   async getToken(code) {
-    const { clientId, clientSecret } = this.props
+    const { clientId, clientSecret } = this.props;
     try {
       let response = await fetch(
         `https://slack.com/api/oauth.access?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`,
       );
       let results = await response.json();
       if (results && results.ok) {
-        this.props.onLoginSuccess(results.access_token, results)
-      } else this.props.onLoginFailure(results)
+        this.props.onLoginSuccess(results.access_token, results);
+      } else this.props.onLoginFailure(results);
     } catch (error) {
       console.error(error);
-      this.props.onLoginFailure(error)
+      this.props.onLoginFailure(error);
     }
   }
 
   _onNavigationStateChange(webViewState) {
-    const { url } = webViewState
+    const { url } = webViewState;
     if (url && url.startsWith(this.props.redirectUrl)) {
-      const match = url.match(/(#|\?)(.*)/)
-      const results = qs.parse(match[2])
-      this.hide()
+      const match = url.match(/(#|\?)(.*)/);
+      const results = qs.parse(match[2]);
+      this.hide();
       if (results.code) {
-        this.getToken(results.code)
+        this.getToken(results.code);
       }
     }
   }
 
   _onMessage(reactMessage) {
     try {
-      const json = JSON.parse(reactMessage.nativeEvent.data)
+      const json = JSON.parse(reactMessage.nativeEvent.data);
       if (json && json.error_type) {
-        this.hide()
-        this.props.onLoginFailure(json)
+        this.hide();
+        this.props.onLoginFailure(json);
       }
     } catch (err) { }
   }
@@ -85,46 +85,51 @@ export default class Instagram extends Component {
   // }
 
   onBackdropPress() {
-    const { onBackdropPress } = this.props
+    const { onBackdropPress } = this.props;
     if (onBackdropPress) {
-      this.setState({ modalVisible: false })
+      this.setState({ modalVisible: false });
     }
   }
 
   onClose() {
-    const { onClose } = this.props
-    if (onClose) onClose()
-    this.setState({ modalVisible: false })
+    const { onClose } = this.props;
+    if (onClose) onClose();
+    this.setState({ modalVisible: false });
   }
 
   renderClose() {
-    const { renderClose } = this.props
-    if (renderClose) return renderClose()
+    const { renderClose } = this.props;
+    if (renderClose) return renderClose();
     return (
       <Image source={require('./assets/close-button.png')} style={styles.imgClose} resizeMode="contain" />
-    )
+    );
   }
 
   renderWebview() {
-    const { clientId, redirectUrl, scopes } = this.props
+    const { clientId, redirectUrl, scopes, language = 'en' } = this.props;
     return (
       <WebView
         {...this.props}
         style={[styles.webView, this.props.styles.webView]}
-        source={{ uri: `https://slack.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scopes.join('+')}` }}
+        source={{
+          uri: `https://slack.com/oauth/authorize/?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scopes.join('+')}`,
+          headers: {
+            "Accept-Language": language,
+          }
+        }}
         scalesPageToFit
         startInLoadingState
         onNavigationStateChange={this._onNavigationStateChange.bind(this)}
         onError={this._onNavigationStateChange.bind(this)}
         onMessage={this._onMessage.bind(this)}
-        ref={(webView) => { this.webView = webView }}
+        ref={(webView) => { this.webView = webView; }}
         injectedJavaScript={patchPostMessageJsCode}
       />
-    )
+    );
   }
 
   render() {
-    const { containerStyle, wrapperStyle, closeStyle } = this.props
+    const { containerStyle, wrapperStyle, closeStyle } = this.props;
     return (
       <Modal
         animationType={'slide'}
@@ -146,7 +151,7 @@ export default class Instagram extends Component {
 
       </Modal >
 
-    )
+    );
   }
 }
 const propTypes = {
@@ -159,7 +164,7 @@ const propTypes = {
   onLoginFailure: PropTypes.func,
   onBackdropPress: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
-}
+};
 
 const defaultProps = {
   redirectUrl: 'http://hungvu.net',
@@ -173,15 +178,15 @@ const defaultProps = {
         { text: 'OK' }
       ],
       { cancelable: false }
-    )
+    );
   },
   onLoginFailure: (failureJson) => {
-    console.debug(failureJson)
+    console.debug(failureJson);
   },
-}
+};
 
-Instagram.propTypes = propTypes
-Instagram.defaultProps = defaultProps
+Instagram.propTypes = propTypes;
+Instagram.defaultProps = defaultProps;
 
 const styles = StyleSheet.create({
   webView: {
@@ -217,4 +222,4 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   }
-})
+});
