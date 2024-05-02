@@ -24,5 +24,7 @@
     "url": "https://github.com/hungdev/react-native-slack-login/issues"
   },
   "homepage": "https://github.com/hungdev/react-native-slack-login#readme",
-  "dependencies": {}
+  "dependencies": {
+    "react-native-webview": "^13.8.7"
+  }
 }
